@@ -1,3 +1,7 @@
+/**
+ Basic example using only Strings
+ */
+
 // Code 5-1
 import SwiftyJSON
 func handleGetStringItems(
@@ -31,6 +35,43 @@ func handleAddStringItem(
     response.send("Added '\(item)'\n")
     callNextHandler()
 }
+
+// Code 5-3
+router.get ("/v1/string/item", handler: handleGetStringItems)
+router.post("/v1/string/item", handler: handleAddStringItem)
+
+/**
+ Test your code with:
+ 
+ $ curl -H "Content-Type: application/json" \
+        -X POST \
+        -d '{"item":"Reticulate Splines"}' \
+        localhost:8090/v1/string/item
+ 
+ $ curl localhost:8090/v1/string/item
+ */
+
+
+/**
+ Deploying your Application to Bluemix
+ */
+
+import CloudFoundryEnv
+do {
+    let appEnv = try CloudFoundryEnv.getAppEnv()
+    let port: Int = appEnv.port
+    Kitura.addHTTPServer(onPort: port, with: router)
+} catch CloudFoundryEnvError.InvalidValue {
+    print("Oops, something went wrong... Server did not start!")
+}
+
+/**
+ Basic example using only Dictionary
+ */
+
+// Code 
+var itemDictionaries = [[String: Any]]()
+let itemDictionariesLock = DispatchSemaphore(value: 1)
 
 // Code 5-3
 func handleGetItemDictionaries(
@@ -70,6 +111,10 @@ router.get ("/v1/dictionary/item",
 router.post("/v1/dictionary/item",
             handler: handleAddItemDictionary)
 
+/**
+ Move to a Structure
+ */
+
 // Code 5-5
 struct Item {
     let id:    UUID
@@ -96,6 +141,7 @@ extension Item {
                 "title": title as Any]
     }
 }
+
 
 // Code 5-7
 func handleGetItemStructs(
@@ -139,11 +185,40 @@ func handleAddItemStruct(
 router.get ("/v1/struct/item", handler: handleGetItemStructs)
 router.post("/v1/struct/item", handler: handleAddItemStruct)
 
+/**
+ $ curl -H "Content-Type: application/json" \
+        -X POST \
+        -d '{"title":"Finish book!"}' localhost:8090/v1/struct/item
+ Added 'Item(id: 054879B8-B798-4462-AF0B-79B20F9617F4,
+ title: "Herd llamas")'
+ 
+ $ curl localhost:8090/v1/item_struct
+ [
+    {
+        "id" : "054879B8-B798-4462-AF0B-79B20F9617F4",
+        "title" : Finish book!
+    }
+ ]
+ */
+
+
+/** 
+ Adding Authentication
+ */
+
 // Code 5-9
 let credentials = Credentials()
 let facebookCredentialsPlugin = CredentialsFacebookToken()
 credentials.register(facebookCredentialsPlugin)
 router.all("/v1/*/item", middleware: credentials)
+
+/**
+ Connecting to the Database
+ */
+
+// Code 
+.Package(url: "https://github.com/davidungar/miniPromiseKit",
+         majorVersion: 4, minor: 1)
 
 // Code 5-10
 extension URLSession {
@@ -244,3 +319,19 @@ func handleAddCouchDBItem(
 // Code 5-16
 router.get ( "/v1/couch/item", handler: handleGetCouchDBItems )
 router.post( "/v1/couch/item", handler: handleAddCouchDBItem )
+
+/**
+ $ curl -H "Content-Type: application/json" \
+        -X POST \
+        -d '{"title":"Finish book!"}' localhost:8090/v1/struct/item
+ Added 'Item(id: 054879B8-B798-4462-AF0B-79B20F9617F4,
+        title: "Herd llamas")'
+ 
+ $ curl localhost:8090/v1/item_struct
+ [
+    {
+        "id" : "054879B8-B798-4462-AF0B-79B20F9617F4",
+        "title" : Finish book!
+    }
+ ]
+ */
