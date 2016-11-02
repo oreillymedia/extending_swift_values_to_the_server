@@ -37,14 +37,14 @@ precedencegroup LeftFunctionalApply {
     lowerThan: TernaryPrecedence
 }
 
-
-// Code 4.5.2
 infix operator |> : LeftFunctionalApply
 
 @discardableResult
 public func |> <A, B> (
-    x: A, f: (A) throws -> B
-) rethrows -> B {
+    x: A, 
+    f: (A) throws -> B
+) rethrows -> B 
+{
     return try f(x)
 }
 
