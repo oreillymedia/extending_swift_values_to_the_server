@@ -1,5 +1,27 @@
 /**
- Basic example using only Strings
+ Server and Routers
+ */
+
+// Code 5.1.1
+let router = Router()
+
+// Code 5.1.2
+Kitura.addHTTPServer(onPort: 8090, with: router)
+Kitura.run()
+
+// Code 5.1.3
+router.get("/hello") {
+    request, response, callNextHandler in
+    response.status(.OK).send("Hello, World!")
+    callNextHandler()
+}
+
+/**
+ $ curl 127.0.0.1:8090/hello
+ */
+
+/**
+ Creating a Web Service
  */
 
 // Code 5-1

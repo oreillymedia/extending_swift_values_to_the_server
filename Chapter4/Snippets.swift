@@ -4,6 +4,7 @@ precedencegroup LeftFunctionalApply {
     higherThan: AssignmentPrecedence
     lowerThan: TernaryPrecedence
 }
+
 infix operator |> : LeftFunctionalApply
 
 @discardableResult
