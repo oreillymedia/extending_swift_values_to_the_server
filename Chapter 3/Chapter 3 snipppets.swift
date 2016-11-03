@@ -304,7 +304,6 @@ func requestTemperature(in city: City)
 
 //[NOTE TO O'REILLY 'catch' below should be black]
 
-
 requestCity(of: user)
     .then(on: myQ) {
         cityResult -> BasicPromise<Result<Int>> in
@@ -350,7 +349,6 @@ func requestCity(of user: String) -> Promise<City> {
 // Code 3.41.3
 
 //[NOTE TO O'REILLY 'catch' below should be black]
-
 
 requestCity(of: user)
     .then (on: myQ) { requestTemperature(in:  $0 ) }
