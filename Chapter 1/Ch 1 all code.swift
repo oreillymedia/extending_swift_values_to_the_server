@@ -73,14 +73,14 @@ func lookup(user: String) -> (String, Int) {
 // Code 1.4.1
 
 let userInfo = lookup(user: "Washington")
-print( "name:", userInfo.0, "serialNumber:", userInfo.1)
+print( "name:", userInfo.0, "serialNumber:", userInfo.1 )
 
 
 
 // Code 1.4.2
 
 let (name, serialNumber) = lookup(user: "Adams")
-print( "name:", name, "serialNumber:", serialNumber)
+print( "name:", name, "serialNumber:", serialNumber )
 
 
 
@@ -201,8 +201,8 @@ func makeChannel()
 // Code 1.7.2
 
 protocol HTTP_Request_Protocol {
-    var url: URL { get }
-    var requestString: String { get }
+    var url: URL              {get}
+    var requestString: String {get}
 }
 
 
@@ -295,12 +295,12 @@ private extension Int {
 
 class City {
     let name: String
-    init( name: String )  { self.name = name }
+    init(name: String)  { self.name = name }
     func lookupCountry() -> String { … }
 }
 class State {
     let name: String
-    init( name: String )  { self.name = name }
+    init(name: String)  { self.name = name }
     func lookupCountry() -> String { … }
 }
 
