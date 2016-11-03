@@ -299,8 +299,8 @@ if  aRequest == anotherRequest
 // Code 2.26.1
 
 class User {
-    let name:     String // the User’s name does not change
-    var location: String // the User’s location can change
+    let name:     String  // the User’s name can not change
+    var location: String  // the User’s location can change
     
     init( name: String,  location: String ) {
         self.name     = name
