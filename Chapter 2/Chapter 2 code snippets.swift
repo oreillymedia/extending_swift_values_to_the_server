@@ -46,13 +46,19 @@ let contentType = headerFields["Content-Type"] ?? "none"
 // Code 2.15.1
 
 class TemperatureRequestClass {
-    let city: String
+    let city:      String
     var startTime: Date? = nil // an optional Date
+    
     init(city: String) {
         self.city = city
     }
 }
 
+
+
+// Code 2.15.2
+
+let request = TemperatureRequestClass(city: "Paris")
 
 
 // Code 2.16.1
@@ -65,7 +71,7 @@ sendToDB(request: request,  callback: receivedResponse)
 // Code 2.16.2
 
 func receivedResponse(temperature: Int) {
-    let dbTime = Date.now.timeIntervalSince( request.startTime! )
+    let dbTime = Date.now.timeIntervalSince(request.startTime!)
     print("It took", dbTime,
           "seconds to discover that the temperature in",
           request.city, "is", temperature)
@@ -76,7 +82,7 @@ func receivedResponse(temperature: Int) {
 // Code 2.16.3
 
 func sendToDB(
-    request: TemperatureRequestClass,
+    request:  TemperatureRequestClass,
     callback: (Int) -> Void
 ) {
     … // Do lots of slow work to prepare to connection
@@ -89,8 +95,9 @@ func sendToDB(
 // Code 2.17.1
 
 struct TemperatureRequestStruct {
-    let city: String
+    let city:      String
     var startTime: Date? = nil
+    
     init(city: String) {
         self.city = city
     }
@@ -161,6 +168,7 @@ struct OzoneRequest {
     let city:       String
     let state:      String
     var startTime:  Date? = nil
+    
     init(city: String, state: String) {
         self.city  = city
         self.state = state
@@ -183,6 +191,7 @@ struct TemperatureRequest: Request {
     let city:       String
     let state:      String
     var startTime:  Date? = nil
+    
     init(city: String, state: String) {
         self.city  = city
         self.state = state
