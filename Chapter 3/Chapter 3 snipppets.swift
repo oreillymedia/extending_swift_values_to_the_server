@@ -6,6 +6,7 @@
 //
 //
 
+
 // Code 3.31.1
 
 enum City { case Austin, Mountain_View, Podunk }
@@ -21,6 +22,7 @@ func getCity(of user: String) throws -> City {
 }
 func getTemperature(in city: City) throws -> Int {...}
 
+
 // Code 3.31.2
 
 do {
@@ -30,12 +32,14 @@ do {
 }
 catch { print("error:", error) }
 
+
 // Code 3.32.1
 
 enum Result<FulfilledValue> {
     case fulfilled(FulfilledValue)
     case rejected(Error)
 }
+
 
 // Code 3.32.2
 
@@ -48,9 +52,11 @@ extension Result {
 
 
 
+
 // Code 3.32.3
 
 let aResult = Result<City> { try getCity(of: "David") }
+
 
 
 
@@ -66,6 +72,7 @@ func getTemperatureFromCity( aResult: Result<City> )
         return Result<Int>.rejected(err)
     }
 }
+
 
 // Code 3.32.5
 
@@ -85,11 +92,13 @@ extension Result {
     }
 }
 
+
 // Code 3.33.1
 
 Result { try getCity(of: user) }
     .then { try getTemperature(in: $0) }
     .then { print("temperature:", $0) }
+
 
 
 // Code 3.33.2
@@ -118,6 +127,7 @@ extension Result {
 }
 
 
+
 // Code 3.34.1
 
 // Type inference allows omission of <City> after Result below:
@@ -126,6 +136,7 @@ Result       { try getCity(of: user) }
     .then    { try getTemperature(in: $0) }
     .catch   { print("error:", $0) }
     .then    { print("temperature:", $0) }
+
 
 // Code 3.35.1
 
@@ -148,6 +159,7 @@ func requestTemperature(
 ) {...}
 
 
+
 // Code 3.35.2
 
 requestCity(of: user) {
@@ -168,13 +180,16 @@ requestCity(of: user) {
     }
 }
 
+
 // Code 3.37.1
 
 let aBasicPromise = BasicPromise<Int>()
 
+
 // Code 3.37.2
 
 aBasicPromise.fulfill(17)
+
 
 // Code 3.37.3
 
@@ -183,6 +198,7 @@ aBasicPromise
         // asynchronous request returning a BasicPromise
     }
     .then { print($0) }
+
 
 // Code 3.37.4
 
@@ -193,6 +209,7 @@ func then(
 )
 
 
+
 // Code 3.38.1
 
 func then<NewOutcome> (
@@ -200,6 +217,7 @@ func then<NewOutcome> (
     execute transformer:
         @escaping (Outcome) -> NewOutcome
 ) -> BasicPromise<NewOutcome>
+
 
 // Code 3.38.2
 
@@ -209,6 +227,7 @@ func then<NewOutcome>(
         @escaping (Outcome)
         -> BasicPromise<NewOutcome>
 ) -> BasicPromise<NewOutcome>
+
 
 // Code 3.38.3
 
@@ -228,6 +247,7 @@ func requestCityIgnoringErrors(
 }
 
 
+
 // Code 3.39.1
 
 func requestCityIgnoringErrors(of user: String)
@@ -243,11 +263,13 @@ func requestTemperatureIgnoringErrors(in city: City)
 {…}
 
 
+
 // Code 3.39.2
 
 requestCityIgnoringErrors(of: user)
     .then { requestTemperatureIgnoringErrors(in: $0) }
     .then { print("Temperature is", $0) }
+
 
 // Code 3.40.1
 
@@ -273,6 +295,7 @@ func requestTemperature(in city: City)
     -> BasicPromise<Result<Int>>
 {…}
 
+
 // Code 3.40.2
 
 //[NOTE TO O'REILLY 'catch' below should be black]
@@ -295,11 +318,13 @@ requestCity(of: user)
         $0.catch { print( "error: ", $0) }
 }
 
+
 // Code 3.41.1
 
 struct Promise<FulfilledValue> {
     let basicPromise: BasicPromise<Result<FulfilledValue>>
 }
+
 
 // Code 3.41.2
 
@@ -317,6 +342,7 @@ func requestCity(of user: String) -> Promise<City> {
     return promise
 }
 
+
 // Code 3.41.3
 
 //[NOTE TO O'REILLY 'catch' below should be black]
@@ -326,6 +352,7 @@ requestCity(of: user)
     .then (on: myQ) { requestTemperature(in:  $0 ) }
     .then (on: myQ) { print("Temperature is", $0 ) }
     .catch(on: myQ) { print("error:",         $0 ) }
+
 
 // Code 3.42.1
 

@@ -6,17 +6,24 @@
 //
 //
 
+
 // Code 2.13.1
 
 let headerFields: [String: String] = …
+
+
 
 // Code 2.14.1
 
 let contentType = headerFields["Content-Type"]
 
+
+
 // Code 2.14.2
 
 if contentType.hasPrefix("text") // ILLEGAL
+
+
 
 // Code 2.14.3
 
@@ -28,9 +35,13 @@ else {
     contentType = "no contentType"
 }
 
+
+
 // Code 2.14.4
 
 let contentType = headerFields["Content-Type"] ?? "none"
+
+
 
 // Code 2.15.1
 
@@ -42,10 +53,14 @@ class TemperatureRequestClass {
     }
 }
 
+
+
 // Code 2.16.1
 
 request.startTime = Date.now
 sendToDB(request: request,  callback: receivedResponse)
+
+
 
 // Code 2.16.2
 
@@ -55,6 +70,8 @@ func receivedResponse(temperature: Int) {
           "seconds to discover that the temperature in",
           request.city, "is", temperature)
 }
+
+
 
 // Code 2.16.3
 
@@ -67,6 +84,8 @@ func sendToDB(
     … // Send the request on the prepared connection
 }
 
+
+
 // Code 2.17.1
 
 struct TemperatureRequestStruct {
@@ -77,9 +96,13 @@ struct TemperatureRequestStruct {
     }
 }
 
+
+
 // Code 2.17.2
 
 var request = TemperatureRequestStruct(city: "Paris")
+
+
 
 // Code 2.17.3
 
@@ -92,10 +115,14 @@ func sendToDB(
     … // Send the request on the prepared connection
 }
 
+
+
 // Code 2.17.4
 
 var mutableRequest = request
 mutableRequest.startTime = Date.now
+
+
 
 // Code 2.18.1
 
@@ -105,6 +132,8 @@ struct TemperatureRequestStruct {
     mutating func clearStartTime() { startTime = nil }
 }
 
+
+
 // Code 2.19.1
 
 let request1 = TemperatureRequestStruct(city: "Paris")
@@ -112,6 +141,8 @@ var request2 = request1   // makes a copy because is a struct
 
 request1.clearStartTime() // ILLEGAL: cannot mutate a let
 request2.clearStartTime() // OK, but does not change request1
+
+
 
 // Code 2.19.2
 
@@ -136,6 +167,8 @@ struct OzoneRequest {
     }
     var cityAndState: String { return city + ", " + state }
 }
+
+
 
 // Code 2.20.1
 
@@ -166,11 +199,15 @@ struct OzoneRequest: Request {
     }
 }
 
+
+
 // Code 2.22.1
 
 enum HTTP_Request_Kind {
     case get, post // other request types omitted for brevity
 }
+
+
 
 // Code 2.22.2
 
@@ -181,6 +218,8 @@ struct Get:  HTTP_Request {...}
 struct Post: HTTP_Request {...}
 let someRequest: HTTP_Request = ... // ILLEGAL
 let requests: [HTTP_Request] = ... // also ILLEGAL
+
+
 
 
 // Code 2.22.3
@@ -230,6 +269,8 @@ enum HTTP_Request {
     }
 }
 
+
+
 // Code 2.23.1
 
 let requests: [HTTP_Request] = [
@@ -237,9 +278,13 @@ let requests: [HTTP_Request] = [
     .post(destination: url2, headerFields: [:], data: someData)
 ]
 
+
+
 // Code 2.23.2
 
 if  aRequest == anotherRequest
+
+
 
 
 // Code 2.26.1
