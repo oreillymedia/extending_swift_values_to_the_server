@@ -95,9 +95,9 @@ extension Result {
 
 // Code 3.33.1
 
-Result { try getCity(of: user) }
+Result    { try getCity(of: user)      }
     .then { try getTemperature(in: $0) }
-    .then { print("temperature:", $0) }
+    .then { print("temperature:",  $0) }
 
 
 
@@ -130,12 +130,14 @@ extension Result {
 
 // Code 3.34.1
 
+// [NOTE: TO O'REILLY: 'catch' should be black below
+
 // Type inference allows omission of <City> after Result below:
-Result       { try getCity(of: user) }
-    .recover { _ in .Austin }
+Result       { try getCity(of: user)      }
+    .recover { _ in .Austin               }
     .then    { try getTemperature(in: $0) }
-    .catch   { print("error:", $0) }
-    .then    { print("temperature:", $0) }
+    .catch   { print("error:",        $0) }
+    .then    { print("temperature:",  $0) }
 
 
 // Code 3.35.1
@@ -205,7 +207,8 @@ aBasicPromise
 func then(
     on q: DispatchQueue = BasicPromise.defaultQueue,
     execute consumer:
-        @escaping (Outcome) -> Void
+        @escaping (Outcome)
+        -> Void
 )
 
 
@@ -215,7 +218,8 @@ func then(
 func then<NewOutcome> (
     on q: DispatchQueue = BasicPromise.defaultQ,
     execute transformer:
-        @escaping (Outcome) -> NewOutcome
+        @escaping (Outcome)
+        -> NewOutcome
 ) -> BasicPromise<NewOutcome>
 
 
@@ -241,7 +245,7 @@ func requestCityIgnoringErrors(
         case "Rob":   callback(.Austin)
         case "David": callback(.Mountain_View)
         case "John":  callback(.Podunk)
-        default: abort()
+        default:      abort()
         }
     }
 }
