@@ -6,6 +6,12 @@
 //
 //
 
+//: This file contains the code examples from Chapter 1 of Extending Swift Values To The Server
+//: Some of this code *does not compile,* because it is intended to instruct.
+//: We will put playgrounds on this repository containing code youc can run.
+//: The numbering scheme is <Chapter>.<Page>.<Sequence within page>
+//: Rather than rearrange to exploit the wider margins here, I have kept the line breaks and indentation used in the book.
+
 
 // Code 2.13.1
 
