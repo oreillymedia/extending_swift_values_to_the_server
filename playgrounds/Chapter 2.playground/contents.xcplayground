@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios'>
+    <pages>
+        <page name='Optional Types Exterminate Nil-Value Bugs'/>
+        <page name='Structures Isolate Mutation'/>
+        <page name='Enumerations With Associated Values'/>
+        <page name='Choosing an Aggregate'/>
+    </pages>
+</playground>

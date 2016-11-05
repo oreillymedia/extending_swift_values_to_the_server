@@ -244,7 +244,7 @@ func then<NewOutcome>(
 
 func requestCityIgnoringErrors(
     of user: String,
-    @escaping callback: (City) -> Void
+    callback: @escaping (City) -> Void
 ) {
     // Simulate the asynchrony of a web request
     DispatchQueue.global(qos: .userInitiated).async {
