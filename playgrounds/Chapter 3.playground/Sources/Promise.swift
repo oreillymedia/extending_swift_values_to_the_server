@@ -43,7 +43,7 @@ public extension Promise {
         do {
             try resolvers(
                 { fulfillBasic(.fulfilled($0)) },
-                { fulfillBasic(.rejected($0)) }
+                { fulfillBasic(.rejected( $0)) }
             )
         }
         catch {

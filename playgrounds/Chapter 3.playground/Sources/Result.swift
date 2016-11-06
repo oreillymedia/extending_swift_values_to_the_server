@@ -5,8 +5,8 @@ public enum Result<FulfilledValue> {
     case rejected(Error)
     
     public init( of body: () throws -> FulfilledValue ) {
-        do { self = try .fulfilled( body() ) }
-        catch { self = .rejected ( error ) }
+        do    { self = .fulfilled( try body() ) }
+        catch { self = .rejected (     error  ) }
     }
     
 }
@@ -23,8 +23,8 @@ extension Result {
         case .rejected (let e):
             return .rejected(e)
         case .fulfilled(let r):
-            do { return try .fulfilled( body(r) ) }
-            catch { return .rejected ( error ) }
+            do    { return .fulfilled( try body(r) ) }
+            catch { return .rejected (     error   ) }
         }
     }
     
@@ -41,15 +41,16 @@ extension Result {
         case .fulfilled:
             return self
         case .rejected(let e):
-            do    { return try .fulfilled( body(e)) }
-            catch { return .rejected( error ) }
+            do    { return .fulfilled( try body(e) ) }
+            catch { return .rejected(      error   ) }
         }
     }
+    @discardableResult
     public func `catch`(execute body: (Error) -> Void)
         -> Result
     {
         switch self {
-        case .fulfilled: break
+        case .fulfilled:       break
         case .rejected(let e): body(e)
         }
         return self
