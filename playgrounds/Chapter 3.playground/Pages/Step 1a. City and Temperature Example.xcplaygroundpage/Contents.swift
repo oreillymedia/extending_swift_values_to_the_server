@@ -26,18 +26,22 @@ func printTemperatureOrError(for user: String) {
     do {
         let city        = try basicGetCity(of: user)
         let temperature = try basicGetTemperature(in: city)
-        print("temperature for", user, "is:", temperature)
+        show("temperature for", user, "is:", temperature)
     }
     catch {
-        print("no temperature for", user, "error:", error)
+        show("no temperature for", user, "error:", error)
     }
 }
 
 //: Mac: the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:
 //: iPad: tap "Run My Code" on the bottom right of the screen, XXXXX
 
-printTemperatureOrError(for: "Rob")
-printTemperatureOrError(for: "Jane")
+executeSoThatShowWorksAsynchronously {
+    printTemperatureOrError(for: "Rob")
+}
+executeSoThatShowWorksAsynchronously {
+    printTemperatureOrError(for: "Jane")
+}
 
 
 

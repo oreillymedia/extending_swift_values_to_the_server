@@ -35,7 +35,7 @@ getTemperatureFromCity(aResult: anotherResult)
 func printTemperature(for user: String) {
     Result { try basicGetCity(of: user) }
         .then { try basicGetTemperature(in: $0) }
-        .then { print("temperature where", user, "is: ", $0) }
+        .then { show("temperature where", user, "is: ", $0) }
 }
 
 printTemperature(for: "David")
@@ -47,9 +47,9 @@ func printTemperatureOrErrorAssumingAustin(for user: String) {
     Result { try basicGetCity(of: user) }
         .recover { _ in .Austin }
         .then { try basicGetTemperature(in: $0) }
-        .catch { print("error for", user, "(assuning Austin if unknown)", $0) }
+        .catch { show("error for", user, "(assuning Austin if unknown)", $0) }
         .then {
-            print("temperature for", user,
+            show("temperature for", user,
                   "is (assuming Austin if unknown) is", $0)
     }
 }
@@ -57,6 +57,12 @@ func printTemperatureOrErrorAssumingAustin(for user: String) {
 //: In the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:
 
 
-printTemperatureOrErrorAssumingAustin(for: "David") // prints 70; that's where David is
-printTemperatureOrErrorAssumingAustin(for: "Manny") // prints 90; assuming Austin
-printTemperatureOrErrorAssumingAustin(for: "John")  // prints error; no temp
+executeSoThatShowWorksAsynchronously {
+    printTemperatureOrErrorAssumingAustin(for: "David") // prints 70; that's where David is
+}
+executeSoThatShowWorksAsynchronously {
+    printTemperatureOrErrorAssumingAustin(for: "Manny") // prints 90; assuming Austin
+}
+executeSoThatShowWorksAsynchronously {
+    printTemperatureOrErrorAssumingAustin(for: "John")  // prints error; no temp
+}

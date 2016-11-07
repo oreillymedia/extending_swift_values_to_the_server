@@ -32,15 +32,15 @@ func printCityOrError(for user: String) {
             requestTemperature(in: city) {
                 // Inner callback:
                 if let temperature = $0 {
-                    print("temperature for", user, "is", temperature)
+                    show("temperature for", user, "is", temperature)
                 }
                 else {
-                    print("no temperature for", user, "error:", $1 ?? Errors.missing)
+                    show("no temperature for", user, "error:", $1 ?? Errors.missing)
                 }
             }
         }
         else {
-            print("no city for", user, "error:", $1 ?? Errors.missing)
+            show("no city for", user, "error:", $1 ?? Errors.missing)
         }
     }
 }
@@ -48,9 +48,15 @@ func printCityOrError(for user: String) {
 //: try it:
 //: In the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:
 
-printCityOrError(for: "David")
-printCityOrError(for: "John")
-printCityOrError(for: "Marsha")
+executeSoThatShowWorksAsynchronously {
+    printCityOrError(for: "David")
+}
+executeSoThatShowWorksAsynchronously {
+    printCityOrError(for: "John")
+}
+executeSoThatShowWorksAsynchronously {
+    printCityOrError(for: "Marsha")
+}
 
 
 

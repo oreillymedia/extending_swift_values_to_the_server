@@ -30,13 +30,19 @@ func printCityOrError(for user: String) {
     let myQ = DispatchQueue.global(qos: .userInitiated)
     requestCity(of: user)
         .then (on: myQ) { requestTemperature(in: $0 ) }
-        .then (on: myQ) { print("Temperature for",    user, "is",     $0 ) }
-        .catch(on: myQ) { print("No temperature for", user, "error:", $0 ) }
+        .then (on: myQ) { show("Temperature for",    user, "is",     $0 ) }
+        .catch(on: myQ) { show("No temperature for", user, "error:", $0 ) }
 }
 
-printCityOrError( for: "David" )
-printCityOrError( for: "John"  )
-printCityOrError( for: "Linda" )
+executeSoThatShowWorksAsynchronously {
+    printCityOrError( for: "David" )
+}
+executeSoThatShowWorksAsynchronously {
+    printCityOrError( for: "John"  )
+}
+executeSoThatShowWorksAsynchronously {
+    printCityOrError( for: "Linda" )
+}
 
 
 //: [Next](@next)

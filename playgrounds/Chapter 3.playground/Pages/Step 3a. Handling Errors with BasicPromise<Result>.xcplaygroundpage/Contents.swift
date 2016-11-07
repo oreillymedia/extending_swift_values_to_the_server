@@ -49,14 +49,19 @@ func printCityOrErrorUsingBasicPromise(for user: String) {
             }
         }
         .then(on: myQ) {
-            $0.then { print( "Temperature for", user, "is", $0) }
-            $0.catch { print( "No temperature for", user, "error:", $0) }
+            $0.then { show( "Temperature for", user, "is", $0) }
+            $0.catch { show( "No temperature for", user, "error:", $0) }
     }
 }
 
-printCityOrErrorUsingBasicPromise(for: "Rob")
-printCityOrErrorUsingBasicPromise(for: "John")
-printCityOrErrorUsingBasicPromise(for: "Jane")
+executeSoThatShowWorksAsynchronously {
+    printCityOrErrorUsingBasicPromise(for: "Rob")
+}
+executeSoThatShowWorksAsynchronously {
+    printCityOrErrorUsingBasicPromise(for: "John")
+}
+executeSoThatShowWorksAsynchronously { printCityOrErrorUsingBasicPromise(for: "Jane")
+}
 
 
 
