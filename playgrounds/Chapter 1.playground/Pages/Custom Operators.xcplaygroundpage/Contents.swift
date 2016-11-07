@@ -2,9 +2,9 @@
 
 import Foundation
 
-//: For this section, some dummy functions are needed:
-
-
+//: # Custom Operators
+//: - - -
+//: ## Infrastructure for the examples
 func sqrt(_ x: Double) -> Double {
     return x.squareRoot()
 }
@@ -28,9 +28,8 @@ func compress(_ image: Image) -> CompressedImage {
 func send(_ compressedImage: CompressedImage) -> String {
     return "sent compressed image named \(compressedImage.original.name)"
 }
-
-//: Must define the operator before you can use it:
-
+//: - - -
+//: ## Define the operator
 precedencegroup LeftFunctionalApply { associativity: left
     higherThan: AssignmentPrecedence lowerThan: TernaryPrecedence
 }
@@ -39,15 +38,9 @@ infix operator |> : LeftFunctionalApply
 func |> <In, Out> ( lhs: In, rhs: (In) throws -> Out ) rethrows -> Out {
     return try rhs(lhs)
 }
-
-//: Now we can try it out:
-
+//: - - -
+//: ## Try it out
 9.0 |> sqrt
 
 getImage() |> compress |> send
-
-
-
-
-
 //: [Next](@next)

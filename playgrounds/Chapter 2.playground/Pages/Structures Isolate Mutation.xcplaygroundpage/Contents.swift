@@ -1,12 +1,9 @@
-//: Playground - noun: a place where people can play
-
 //: [Previous](@previous)
 
 import Foundation
-
-//: # This version exposes the bug resulting from mutating an instance of a class
-//: # Departs from the text by putting receivedResponse function inside the Request type:
-
+//: # Structures Isolate Mutation
+//: ## This example exposes the bug resulting from mutating an instance of a class
+//: ## It departs from the text by putting receivedResponse function inside the Request type:
 class TemperatureRequestClass {
     let city: String
     var startTime: Date? = nil // an optional Date
@@ -43,14 +40,11 @@ func sendToDB1( request: TemperatureRequestClass,  callback: @escaping (Int) -> 
 //: In order to see the print output, you need to
 //: go to the View menu, select "Debug Area", then "Activate Console"
 
-
-
 let request1 = TemperatureRequestClass (city: "Paris")
 request1.startTime = Date()
 sendToDB1(request: request1, callback: request1.receivedResponse)
-
-//: # Now, use a structure
-
+//: - - -
+//: ## Now, use a structure
 struct TemperatureRequestStruct {
     let city: String
     var startTime: Date? = nil
@@ -64,7 +58,6 @@ struct TemperatureRequestStruct {
     }
     
 }
-
 
 func sendToDB2( request: TemperatureRequestStruct,  callback: (Int) -> Void )
 {
@@ -82,15 +75,11 @@ func sendToDB2( request: TemperatureRequestStruct,  callback: (Int) -> Void )
     callback(60)
 }
 
-
-
 var request2 = TemperatureRequestStruct(city: "London")
 request2.startTime = Date()
 sendToDB2(request: request2, callback: request2.receivedResponse)
-
-
-//: Trying the quick fix:
-
+//: - - -
+//: ## Trying the quick fix:
 func sendToDB3( request: TemperatureRequestStruct,  callback: (Int) -> Void )
 {
     // Do lots of slow work to prepare to connection
@@ -108,9 +97,8 @@ func sendToDB3( request: TemperatureRequestStruct,  callback: (Int) -> Void )
 var request3 = TemperatureRequestStruct (city: "Rome")
 request3.startTime = Date()
 sendToDB3(request: request3, callback: request3.receivedResponse)
-
-//: # Mutating Methods
-
+//: - - -
+//: ## Mutating Methods
 extension TemperatureRequestStruct {
     // Delete 'mutating' below to see the error:
     // "Cannot assign to property: 'self' is immutable"
@@ -126,10 +114,8 @@ var request5 = request4 // makes a copy because is a struct
 request5.clearStartTime() // OK, but does not change request4
 request4.startTime
 request5.startTime
-
-
-//: # Default Implementations with Protocol Extensions
-
+//: - - -
+//: ## Default Implementations with Protocol Extensions
 struct TemperatureRequest1 {
     let city: String
     let state: String

@@ -1,20 +1,13 @@
 //: [Previous](@previous)
-
 import Foundation
-
-private extension Int {
-    var squared: Int { return self * self }
-}
-
+//: # Extensions
+//: ## Example definitions
 let a = 144
 let b =  24
 let c = 100
 let d = 20
-
-(a/b).squared + (c/d).squared
-
-//: Without extensions:
-
+//: - -
+//: ## Without extensions
 class City1 {
     let name: String
     init(name: String) { self.name = name }
@@ -38,9 +31,14 @@ class State1 {
         }
     }
 }
-
-//: With extensions:
-
+//: - - -
+//: With extensions
+private extension Int {
+    var squared: Int { return self * self }
+}
+(a/b).squared + (c/d).squared
+//: - - -
+//: ## Extensions let you group the lookup functions together:
 class City2 {
     let name: String
     init(name: String) { self.name = name }
@@ -49,9 +47,6 @@ class State2 {
     let name: String
     init(name: String) { self.name = name }
 }
-
-
-//: You can group the lookup functions together:
 
 extension City2  {
     func lookupCountry() -> String {

@@ -1,9 +1,6 @@
 //: [Previous](@previous)
-
 import Foundation
-
 //: # Simple Enumerations
-
 enum Validity { case valid, invalid }
 
 enum StatusCode: Int {
@@ -14,11 +11,9 @@ enum StatusCode: Int {
     case unauthorized = 401
 }
 
-func printRealValue(of e: StatusCode) {
-    print ("real value is", e.rawValue)
+func getRealValue(of e: StatusCode) -> String {
+    return "real value is \(e.rawValue)"
 }
 
-printRealValue(of: /* StatusCode */.badRequest) // StatusCode is inferred by the compiler
-
-
+getRealValue(of: /* StatusCode */.badRequest) // StatusCode is inferred by the compiler
 //: [Next](@next)

@@ -1,11 +1,8 @@
 //: [Previous](@previous)
-
 import Foundation
-
-//: # Generic Protocols
-
-//: First, without protocols:
-
+//: # (Generic) Protocols
+//: - - -
+//: ## First, without protocols:
 struct TemperatureResponse1 {
     let city:   String
     let answer: Int
@@ -14,9 +11,8 @@ struct FavoriteFoodResponse1 {
     let city:   String
     let answer: String
 }
-
-//: Now, with protocols
-
+//: - - -
+//: ## Now, with protocols
 protocol ResponseProtocol {
     associatedtype Answer
     
@@ -32,9 +28,9 @@ struct FavoriteFoodResponse2: ResponseProtocol {
     let city:   String
     let answer: String
 }
-
-//: Uncomment the following line to see the error:
-//: "Protocol 'ResponseProtocol' can only be used as a generic constraint because it has Self or associated type required"
+//: - - -
+// Uncomment the following line to see the error:
+// "Protocol 'ResponseProtocol' can only be used as a generic constraint because it has Self or associated type required"
 // var someResponse: ResponseProtocol // ILLEGAL
 
 func handleResponse <SomeResponseType: ResponseProtocol> ( response: SomeResponseType) -> String
@@ -43,5 +39,4 @@ func handleResponse <SomeResponseType: ResponseProtocol> ( response: SomeRespons
 }
 handleResponse(response: TemperatureResponse2 (city: "San Jose",       answer: 70) )
 handleResponse(response: FavoriteFoodResponse2(city: "San Francisco",  answer: "sourdough") )
-
 //: [Next](@next)

@@ -1,7 +1,7 @@
 //: [Previous](@previous)
-
 import Foundation
-
+//: # Closures
+//: ## A closure (being a reference type) can implement shared mutable state
 func makeChannel() -> ( send: (String) -> Void, receive: () -> String)
 {
     var message: String = ""
@@ -10,7 +10,7 @@ func makeChannel() -> ( send: (String) -> Void, receive: () -> String)
         receive: { (_: Void  ) -> String in  return message }
     )
 }
-
+//: - - -
 let aChannel = makeChannel()
 
 aChannel.send("Hello")
@@ -18,6 +18,5 @@ aChannel.receive()
 
 aChannel.send("Goodbye")
 aChannel.receive()
-
-
+aChannel.receive()
 //: [Next](@next)
