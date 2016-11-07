@@ -32,17 +32,17 @@ getTemperatureFromCity(aResult: anotherResult)
 
 //: And then the composition gets easy to read:
 
-func printTemperature(for user: String) {
+func showTemperature(for user: String) {
     Result { try basicGetCity(of: user) }
         .then { try basicGetTemperature(in: $0) }
         .then { show(temperature: $0, for: user) }
 }
 
-printTemperature(for: "David")
-printTemperature(for: "Bert") // This invocation does not print anything
+showTemperature(for: "David")
+showTemperature(for: "Bert") // This invocation does not show anything
 
 
-func printTemperatureOrErrorAssumingAustin(for user: String) {
+func showTemperatureOrErrorAssumingAustin(for user: String) {
     // Type inference allows omission of <City> after Result below:
     Result { try basicGetCity(of: user) }
         .recover { _ in .Austin }
@@ -52,15 +52,14 @@ func printTemperatureOrErrorAssumingAustin(for user: String) {
             show(temperature: $0, for: user) }
 }
 
-//: In the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:
 
 
 executeSoThatShowWorksAsynchronously {
-    printTemperatureOrErrorAssumingAustin(for: "David") // prints 70; that's where David is
+    showTemperatureOrErrorAssumingAustin(for: "David") // shows 70; that's where David is
 }
 executeSoThatShowWorksAsynchronously {
-    printTemperatureOrErrorAssumingAustin(for: "Manny") // prints 90; assuming Austin
+    showTemperatureOrErrorAssumingAustin(for: "Manny") // shows 90; assuming Austin
 }
 executeSoThatShowWorksAsynchronously {
-    printTemperatureOrErrorAssumingAustin(for: "John")  // prints error; no temp
+    showTemperatureOrErrorAssumingAustin(for: "John")  // shows error; no temp
 }

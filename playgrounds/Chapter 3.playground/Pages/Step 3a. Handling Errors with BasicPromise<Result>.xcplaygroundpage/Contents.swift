@@ -34,7 +34,7 @@ func requestTemperature(in city: City)
 }
 
 
-func printCityOrErrorUsingBasicPromise(for user: String) {
+func showCityOrErrorUsingBasicPromise(for user: String) {
     let myQ = DispatchQueue.global(qos: .userInitiated)
     requestCity(of: user)
         .then(on: myQ) {
@@ -55,12 +55,12 @@ func printCityOrErrorUsingBasicPromise(for user: String) {
 }
 
 executeSoThatShowWorksAsynchronously {
-    printCityOrErrorUsingBasicPromise(for: "Rob")
+    showCityOrErrorUsingBasicPromise(for: "Rob")
 }
 executeSoThatShowWorksAsynchronously {
-    printCityOrErrorUsingBasicPromise(for: "John")
+    showCityOrErrorUsingBasicPromise(for: "John")
 }
-executeSoThatShowWorksAsynchronously { printCityOrErrorUsingBasicPromise(for: "Jane")
+executeSoThatShowWorksAsynchronously { showCityOrErrorUsingBasicPromise(for: "Jane")
 }
 
 

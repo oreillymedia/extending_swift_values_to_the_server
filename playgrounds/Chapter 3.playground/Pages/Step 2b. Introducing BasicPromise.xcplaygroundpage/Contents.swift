@@ -45,7 +45,7 @@ func requestTemperatureIgnoringErrors(in city: City)
     return promise
 }
 
-func printTemperatureIgnoringErrors(of user: String) {
+func showTemperatureIgnoringErrors(of user: String) {
     requestCityIgnoringErrors(of: user)
         .then { requestTemperatureIgnoringErrors(in: $0) }
         .then { show(temperature: $0, for: user) }
@@ -55,7 +55,7 @@ BasicPromise<City>.defaultQueue = DispatchQueue.global(qos: .userInitiated) // p
 BasicPromise<Int >.defaultQueue = DispatchQueue.global(qos: .userInitiated) // prevent deadlock below
 
 executeSoThatShowWorksAsynchronously {
-    printTemperatureIgnoringErrors(of: "Rob")
+    showTemperatureIgnoringErrors(of: "Rob")
 }
 
 //: [Next](@next)

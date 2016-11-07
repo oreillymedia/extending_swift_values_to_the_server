@@ -22,7 +22,7 @@ catch { "\(error): no city for Joe"      }
 
 //: Synchronous composition with exceptions:
 
-func printTemperatureOrError(for user: String) {
+func showTemperatureOrError(for user: String) {
     do {
         let city        = try basicGetCity(of: user)
         let temperature = try basicGetTemperature(in: city)
@@ -33,14 +33,12 @@ func printTemperatureOrError(for user: String) {
     }
 }
 
-//: Mac: the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:
-//: iPad: tap "Run My Code" on the bottom right of the screen, XXXXX
 
 executeSoThatShowWorksAsynchronously {
-    printTemperatureOrError(for: "Rob")
+    showTemperatureOrError(for: "Rob")
 }
 executeSoThatShowWorksAsynchronously {
-    printTemperatureOrError(for: "Jane")
+    showTemperatureOrError(for: "Jane")
 }
 
 

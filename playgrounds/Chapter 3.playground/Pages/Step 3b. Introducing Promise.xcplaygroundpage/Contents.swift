@@ -26,7 +26,7 @@ func requestTemperature(in city: City) -> Promise<Int> {
 }
 
 
-func printCityOrError(for user: String) {
+func showCityOrError(for user: String) {
     let myQ = DispatchQueue.global(qos: .userInitiated)
     requestCity(of: user)
         .then (on: myQ) { requestTemperature(in: $0 ) }
@@ -35,13 +35,13 @@ func printCityOrError(for user: String) {
 }
 
 executeSoThatShowWorksAsynchronously {
-    printCityOrError( for: "David" )
+    showCityOrError( for: "David" )
 }
 executeSoThatShowWorksAsynchronously {
-    printCityOrError( for: "John"  )
+    showCityOrError( for: "John"  )
 }
 executeSoThatShowWorksAsynchronously {
-    printCityOrError( for: "Linda" )
+    showCityOrError( for: "Linda" )
 }
 
 
