@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
+        <page name='How to look at code in Sources'/>
         <page name='Step 1a. City and Temperature Example'/>
         <page name='Step 1b. Introducing Result'/>
         <page name='Step 2a. Extending Example to Asynchrony'/>
         <page name='Step 2b. Introducing BasicPromise'/>
         <page name='Step 3a. Handling Errors with BasicPromise&lt;Result&gt;'/>
         <page name='Step 3b. Introducing Promise'/>
-        <page name='How to look at code in Sources'/>
     </pages>
 </playground>

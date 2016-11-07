@@ -1,7 +1,9 @@
 import Foundation
 
 // A BasicPromise handles any type of Outcome, and doesn't help deal with about errors.
-private var defaultQ: DispatchQueue = .main
+
+//: *PromiseKit* uses the main queue as the default. For this playground, *userInitiated* is better, preventing deadlocks.
+private var defaultQ: DispatchQueue = .global(qos: .userInitiated)
 
 public class BasicPromise<Outcome> {
     private typealias Consumer = (Outcome) -> Void

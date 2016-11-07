@@ -1,10 +1,11 @@
 //: [Previous](@previous)
-
+//: # The *Promise* structure
+//: *Promise* packages up a *BasicPromise* whose outcome is a *Result* to provide convenient asynchrony with error handling.
+//: It is defined in the *Sources* folder.
+//:(See [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources).)
 import Foundation
-
-//: See [Promise](Promise)
-
-
+//: - - -
+//: ## Query functions that return a *Promise*
 func requestCity(of user: String) -> Promise<City> {
     // obtain a new Promise & fulfill & rejectfunctions
     let (promise, fulfill, reject) = Promise<City>.pending()
@@ -24,25 +25,23 @@ func requestTemperature(in city: City) -> Promise<Int> {
     }
     return promise
 }
-
-
-func showCityOrError(for user: String) {
+//: - - -
+//: ## *Promises* chain together so easily:
+func printCityOrError(for user: String) {
     let myQ = DispatchQueue.global(qos: .userInitiated)
     requestCity(of: user)
         .then (on: myQ) { requestTemperature(in: $0 ) }
-        .then (on: myQ) { show(temperature: $0, for: user) }
-        .catch(on: myQ) { show(error: $0, for: user) }
+        .then (on: myQ) { printForPlayground(temperature: $0, for: user) }
+        .catch(on: myQ) { printForPlayground(error: $0, for: user) }
 }
-
-executeSoThatShowWorksAsynchronously {
-    showCityOrError( for: "David" )
+//: - - -
+//: And they work:
+asyncForPlayground {
+    printCityOrError( for: "David" )
 }
-executeSoThatShowWorksAsynchronously {
-    showCityOrError( for: "John"  )
+asyncForPlayground {
+    printCityOrError( for: "John"  )
 }
-executeSoThatShowWorksAsynchronously {
-    showCityOrError( for: "Linda" )
+asyncForPlayground {
+    printCityOrError( for: "Linda" )
 }
-
-
-//: [Next](@next)

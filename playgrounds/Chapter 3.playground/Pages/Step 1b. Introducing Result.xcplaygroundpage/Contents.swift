@@ -1,14 +1,11 @@
 //: [Previous](@previous)
-
+//# The *Result* enumeration
 import Foundation
-
-//: This page automatically imports City, Temperature, Errors, and Result from the Sources folder.
-//: See [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources)
-
-
-//: This version of basicGetTemperature takes a Result and directly switches on it:
-
-func getTemperatureFromCity( aResult: Result<City> )
+//: Refer to *Result* from the Sources folder.
+//: See [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources).
+//: - - -
+//: ## Just to get a sense of the enumeration, try a *getTemperature* that takes a Result:
+func getTemperature( fromCityResult aResult: Result<City> )
     -> Result<Int>
 {
     switch aResult {
@@ -18,48 +15,45 @@ func getTemperatureFromCity( aResult: Result<City> )
         return Result<Int>.rejected(err)
     }
 }
-
-
 let aResult = Result<City> { try basicGetCity(of: "David") }
-getTemperatureFromCity(aResult: aResult)
+getTemperature(fromCityResult: aResult)
 
 let anotherResult = Result<City> { try basicGetCity(of: "Mabel") }
-getTemperatureFromCity(aResult: anotherResult)
-
-//: But it's more reusable to put the switch inside of Result in a member function:
-
-//: See Result.swift
+getTemperature(fromCityResult:  anotherResult)
+//: - - -
+//: ## But it's more reusable to put the switch inside of Result in a member function.
+//: (See the *then* method in the *Result* file in *Sources*.)
 
 //: And then the composition gets easy to read:
 
-func showTemperature(for user: String) {
+func printTemperature(for user: String) {
+    whatWasPrinted = "" // because errors do not print anything
     Result { try basicGetCity(of: user) }
         .then { try basicGetTemperature(in: $0) }
-        .then { show(temperature: $0, for: user) }
+        .then { printForPlayground(temperature: $0, for: user) }
 }
 
-showTemperature(for: "David")
-showTemperature(for: "Bert") // This invocation does not show anything
+printTemperature(for: "David")
+whatWasPrinted
 
-
-func showTemperatureOrErrorAssumingAustin(for user: String) {
+printTemperature(for: "Bert")
+whatWasPrinted
+//: - - -
+//: ## Using *recover* to situate unknown users in Austin:
+func printTemperatureOrErrorAssumingAustin(for user: String) {
     // Type inference allows omission of <City> after Result below:
     Result { try basicGetCity(of: user) }
         .recover { _ in .Austin }
         .then { try basicGetTemperature(in: $0) }
-        .catch { show(error: $0, for: user) }
+        .catch { printForPlayground(error: $0, for: user) }
         .then {
-            show(temperature: $0, for: user) }
+            printForPlayground(temperature: $0, for: user) }
 }
+printTemperatureOrErrorAssumingAustin(for: "David")
+whatWasPrinted
 
+printTemperatureOrErrorAssumingAustin(for: "Manny")
+whatWasPrinted
 
-
-executeSoThatShowWorksAsynchronously {
-    showTemperatureOrErrorAssumingAustin(for: "David") // shows 70; that's where David is
-}
-executeSoThatShowWorksAsynchronously {
-    showTemperatureOrErrorAssumingAustin(for: "Manny") // shows 90; assuming Austin
-}
-executeSoThatShowWorksAsynchronously {
-    showTemperatureOrErrorAssumingAustin(for: "John")  // shows error; no temp
-}
+printTemperatureOrErrorAssumingAustin(for: "John")
+whatWasPrinted

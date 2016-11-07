@@ -1,49 +1,30 @@
 //: [Previous](@previous)
-
+//: # City and Temperature Running Example
 import Foundation
-
-//: preliminaries:
-
 //: This page automatically imports City, Temperature and Errors from the Sources folder.
-//: See [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources)
-
-
-
-
-
-//: try basicGetCity:
-
+//: See [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources).
+//: - - -
 try basicGetCity(of: "David")
 
 do    { try basicGetCity(of: "Joe") }
 catch { "\(error): no city for Joe"      }
-
-
-
+//: - - -
 //: Synchronous composition with exceptions:
 
-func showTemperatureOrError(for user: String) {
+func printTemperatureOrError(for user: String) {
     do {
         let city        = try basicGetCity(of: user)
         let temperature = try basicGetTemperature(in: city)
-        show(temperature: temperature, for: user)
+        printForPlayground(temperature: temperature, for: user)
     }
     catch {
-        show(error: error, for: user)
+        printForPlayground(error: error, for: user)
     }
 }
 
+printTemperatureOrError(for: "Rob")
+whatWasPrinted
 
-executeSoThatShowWorksAsynchronously {
-    showTemperatureOrError(for: "Rob")
-}
-executeSoThatShowWorksAsynchronously {
-    showTemperatureOrError(for: "Jane")
-}
-
-
-
-
-
-
+printTemperatureOrError(for: "Jane")
+whatWasPrinted
 //: [Next](@next)

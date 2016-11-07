@@ -1,18 +1,10 @@
 //: [Previous](@previous)
-
-
+//: # Handling Errors with *BasicPromise* of a *Result*
 import Foundation
-
-
-//: See the Sources
-
-
-
-
-
-
-
-
+//: - - -
+//: ## Query functions that use a *Result* outcome for *BasicPromise*
+//: (*Result* and *BasicPromise* are in *Sources*;
+//: see [How to look at code in Sources](How%20to%20look%20at%20code%20in%20Sources).)
 func requestCity(of user: String) -> BasicPromise<Result<City>>
 {
     let promise = BasicPromise<Result<City>>()
@@ -32,9 +24,9 @@ func requestTemperature(in city: City)
     }
     return promise
 }
-
-
-func showCityOrErrorUsingBasicPromise(for user: String) {
+//: - - -
+//: ## Using the queries is a bit awkward
+func printCityOrErrorUsingBasicPromise(for user: String) {
     let myQ = DispatchQueue.global(qos: .userInitiated)
     requestCity(of: user)
         .then(on: myQ) {
@@ -49,22 +41,19 @@ func showCityOrErrorUsingBasicPromise(for user: String) {
             }
         }
         .then(on: myQ) {
-            $0.then { show(temperature: $0, for: user) }
-            $0.catch { show(error: $0, for: user) }
+            $0.then { printForPlayground(temperature: $0, for: user) }
+            $0.catch { printForPlayground(error: $0, for: user) }
     }
 }
-
-executeSoThatShowWorksAsynchronously {
-    showCityOrErrorUsingBasicPromise(for: "Rob")
+//: - - -
+//: ## But they work!
+asyncForPlayground {
+    printCityOrErrorUsingBasicPromise(for: "Rob")
 }
-executeSoThatShowWorksAsynchronously {
-    showCityOrErrorUsingBasicPromise(for: "John")
+asyncForPlayground {
+    printCityOrErrorUsingBasicPromise(for: "John")
 }
-executeSoThatShowWorksAsynchronously { showCityOrErrorUsingBasicPromise(for: "Jane")
+asyncForPlayground { printCityOrErrorUsingBasicPromise(for: "Jane")
 }
-
-
-
-
 
 

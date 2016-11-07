@@ -1,11 +1,10 @@
  //: [Previous](@previous)
-
+//:# The BasicPromise class
 import Foundation
-
-// A BasicPromise handles any type of Outcome, and doesn't help deal with about errors.
-//: See BasicPromise.swift
-
-
+//: A *BasicPromise* handles any type of Outcome, and doesn't help deal with about errors.
+//: See *BasicPromise* in the *Sources* folder.
+//: - - -
+ //: ## First, the callback-style query functions:
 func requestCityIgnoringErrors(
     of user: String,
     callback: @escaping (City) -> Void
@@ -25,9 +24,8 @@ func requestTemperatureIgnoringErrors(
     callback( try! basicGetTemperature(in: city) )
     }
 }
-
-
-
+//: - - -
+//: ## Wrapping the callback-style queries to get query functions using *BasicPromises*
 func requestCityIgnoringErrors(of user: String)
     -> BasicPromise<City>
 {
@@ -44,18 +42,15 @@ func requestTemperatureIgnoringErrors(in city: City)
     requestTemperatureIgnoringErrors(in: city) { promise.fulfill($0) }
     return promise
 }
-
-func showTemperatureIgnoringErrors(of user: String) {
+//: - - -
+//: ## *BasicPromise* provides an elegant and readable way to program asynchrony (but not handling errors)
+func printTemperatureIgnoringErrors(of user: String) {
     requestCityIgnoringErrors(of: user)
         .then { requestTemperatureIgnoringErrors(in: $0) }
-        .then { show(temperature: $0, for: user) }
+        .then { printForPlayground(temperature: $0, for: user) }
 }
 
-BasicPromise<City>.defaultQueue = DispatchQueue.global(qos: .userInitiated) // prevent deadlock below
-BasicPromise<Int >.defaultQueue = DispatchQueue.global(qos: .userInitiated) // prevent deadlock below
-
-executeSoThatShowWorksAsynchronously {
-    showTemperatureIgnoringErrors(of: "Rob")
+asyncForPlayground {
+    printTemperatureIgnoringErrors(of: "Rob")
 }
-
 //: [Next](@next)

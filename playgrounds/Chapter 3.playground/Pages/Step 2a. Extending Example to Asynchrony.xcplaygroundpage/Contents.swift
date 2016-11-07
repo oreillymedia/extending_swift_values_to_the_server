@@ -1,11 +1,7 @@
 //: [Previous](@previous)
-
+//: # Basic example with asynchrony using callbacks
 import Foundation
-
-
-
-//: Callback-style
-
+//: ## Callback-style request functions:
 func requestCity(
     of user: String,
     _ callback: @escaping (City?, Error?) -> Void
@@ -24,39 +20,36 @@ func requestTemperature(
         catch { callback( nil, error )                        }
     }
 }
-
-func showCityOrError(for user: String) {
+//: - - -
+//: ## Nested callbacks get messy:
+func printCityOrError(for user: String) {
     requestCity(of: user) {
         // Outer callback:
         if let city = $0 {
             requestTemperature(in: city) {
                 // Inner callback:
                 if let temperature = $0 {
-                    show(temperature: temperature, for: user)
+                    printForPlayground(temperature: temperature, for: user)
                 }
                 else {
-                    show(error: $1 ?? Errors.missing, for: user)
+                    printForPlayground(error: $1 ?? Errors.missing, for: user)
                 }
             }
         }
         else {
-            show(error: $1 ?? Errors.missing, for: user) }
+            printForPlayground(error: $1 ?? Errors.missing, for: user) }
     }
 }
-
-//: try it:
-
-executeSoThatShowWorksAsynchronously {
-    showCityOrError(for: "David")
+//: - - -
+//: ## But they do work:
+// (*asyncForPlayground* returns *whatWasPrinted*. See *PrintingAndAsynchrony* in *Sources.)
+asyncForPlayground {
+    printCityOrError(for: "David")
 }
-executeSoThatShowWorksAsynchronously {
-    showCityOrError(for: "John")
+asyncForPlayground {
+    printCityOrError(for: "John")
 }
-executeSoThatShowWorksAsynchronously {
-    showCityOrError(for: "Marsha")
+asyncForPlayground {
+    printCityOrError(for: "Marsha")
 }
-
-
-
-
 //: [Next](@next)
