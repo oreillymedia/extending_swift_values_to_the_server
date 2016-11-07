@@ -1,7 +1,8 @@
 //: [Previous](@previous)
-import Foundation
 //: # Extensions
 //: ## Example definitions
+import Foundation
+
 let a = 144
 let b =  24
 let c = 100

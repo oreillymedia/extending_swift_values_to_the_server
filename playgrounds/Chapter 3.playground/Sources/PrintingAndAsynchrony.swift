@@ -1,6 +1,7 @@
 import Foundation
 
 //: Awful hack to get routines that print (asynchronously) to work in iPad playgrounds
+//: There is a better way, but I haven't implemented it yet.
 
 fileprivate var contentsOfShow = ""
 fileprivate let shown = DispatchSemaphore(value: 0)

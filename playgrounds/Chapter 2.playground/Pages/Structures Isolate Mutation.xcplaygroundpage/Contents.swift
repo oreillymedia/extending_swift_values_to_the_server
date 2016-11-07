@@ -1,17 +1,21 @@
 //: [Previous](@previous)
-
-import Foundation
 //: # Structures Isolate Mutation
-//: ## This example exposes the bug resulting from mutating an instance of a class
-//: ## It departs from the text by putting receivedResponse function inside the Request type:
+//: ## Classes can invite bugs
+import Foundation
+
+//: To see the results easier in a playground, we'll change the callbacks to return what was printed in the text
+
+
+
 class TemperatureRequestClass {
     let city: String
     var startTime: Date? = nil // an optional Date
     init(city: String) {  self.city = city  }
     
+    //: This playground departs from the text by putting this function inside the class
     func receivedResponse(temperature: Int) {
         let dbTime = Date().timeIntervalSince( startTime! )
-        print("It took", dbTime,
+        printForPlayground("It took", dbTime,
               "seconds to discover that the temperature in",
               city, "is", temperature)
     }
@@ -32,7 +36,7 @@ func sendToDB1( request: TemperatureRequestClass,  callback: @escaping (Int) -> 
     request.startTime = Date() //The BUG!
     
     // Send the request on the prepared connection
-    callback(70)
+    asyncForPlayground { callback(70) }
 }
 
 
@@ -43,6 +47,8 @@ func sendToDB1( request: TemperatureRequestClass,  callback: @escaping (Int) -> 
 let request1 = TemperatureRequestClass (city: "Paris")
 request1.startTime = Date()
 sendToDB1(request: request1, callback: request1.receivedResponse)
+//: Because of the bug, the elapsed time is too small below:
+whatWasPrinted
 //: - - -
 //: ## Now, use a structure
 struct TemperatureRequestStruct {
@@ -50,16 +56,17 @@ struct TemperatureRequestStruct {
     var startTime: Date? = nil
     init(city: String) {  self.city = city  }
     
+    //: This playground departs from the text by putting this function inside the structure
     func receivedResponse(temperature: Int) {
         let dbTime = Date().timeIntervalSince( startTime! )
-        print("It took", dbTime,
+        printForPlayground("It took", dbTime,
               "seconds to discover that the temperature in",
               city, "is", temperature)
     }
     
 }
 
-func sendToDB2( request: TemperatureRequestStruct,  callback: (Int) -> Void )
+func sendToDB2( request: TemperatureRequestStruct,  callback: @escaping (Int) -> Void )
 {
     
     // Do lots of slow work to prepare to connection
@@ -72,15 +79,17 @@ func sendToDB2( request: TemperatureRequestStruct,  callback: (Int) -> Void )
     // request.startTime = Date() // The BUG!, but ILLEGAL with a structure
     
     // Send the request on the prepared connection
-    callback(60)
+    asyncForPlayground { callback(60) }
 }
 
 var request2 = TemperatureRequestStruct(city: "London")
 request2.startTime = Date()
 sendToDB2(request: request2, callback: request2.receivedResponse)
+//: The elapsed time is right:
+whatWasPrinted
 //: - - -
 //: ## Trying the quick fix:
-func sendToDB3( request: TemperatureRequestStruct,  callback: (Int) -> Void )
+func sendToDB3( request: TemperatureRequestStruct,  callback: @escaping (Int) -> Void )
 {
     // Do lots of slow work to prepare to connection
     for i in 0 ..< 10000 {
@@ -97,6 +106,8 @@ func sendToDB3( request: TemperatureRequestStruct,  callback: (Int) -> Void )
 var request3 = TemperatureRequestStruct (city: "Rome")
 request3.startTime = Date()
 sendToDB3(request: request3, callback: request3.receivedResponse)
+//: The elapsed time is still right:
+whatWasPrinted
 //: - - -
 //: ## Mutating Methods
 extension TemperatureRequestStruct {

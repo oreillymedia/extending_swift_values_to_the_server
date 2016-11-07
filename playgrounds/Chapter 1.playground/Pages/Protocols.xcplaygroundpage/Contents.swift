@@ -1,8 +1,9 @@
 //: [Previous](@previous)
-import Foundation
 //: # (Generic) Protocols
 //: - - -
 //: ## First, without protocols:
+import Foundation
+
 struct TemperatureResponse1 {
     let city:   String
     let answer: Int

@@ -1,8 +1,10 @@
 //: [Previous](@previous)
-
-import Foundation
-
 //: A simple enumeration:
+import Foundation
+import UIKit
+//xxx import PlaygroundSupport
+var xxx: Bool = true
+var xxxx = 0
 
 enum HTTP_Request_Kind {
     case get, post // other request types omitted for brevity
@@ -60,17 +62,25 @@ enum HTTP_Request {
         for (name, value) in headers {
             r.setValue( value, forHTTPHeaderField: name )
         }
+        //xxx PlaygroundPage.current.needsIndefiniteExecution = true
+        let completionHandlerForPlayground: (Data?, URLResponse?, Error?) -> Void = {
+            completionHandler($0, $1, $2)
+            //xxx PlaygroundPage.current.needsIndefiniteExecution = false
+            //xxx print("ZZZ")
+            //xxx PlaygroundPage.current.finishExecution()
+            xxx = false
+        }
         switch self {
         case .get: // also delete
             s.dataTask(
                 with: r,
-                completionHandler: completionHandler )
+                completionHandler: completionHandlerForPlayground )
                 .resume()
         case .post(_, _, let data): // also put, patch
             s.uploadTask(
                 with: r,
                 from: data,
-                completionHandler: completionHandler )
+                completionHandler: completionHandlerForPlayground )
                 .resume()
         }
     }
@@ -92,16 +102,16 @@ enum HTTP_Request {
 }
 
 let request2 = HTTP_Request.get(destination: someURL, headerFields: [:])
-var keepSpinning = true
-DispatchQueue.global(qos: .userInitiated).async {
-    
-    request2.send {
-        data, response, error in
-        print("error", error ?? "none", "response", response ?? "none", "data", data.flatMap {String(data: $0, encoding: .utf8)} ?? "none")
-        keepSpinning = false
-    }
+
+
+request2.send {
+    data, response, error in
+    printForPlayground("error", error ?? "none", "response", response ?? "none", "data", data.flatMap {String(data: $0, encoding: .utf8)} ?? "none")
 }
-while keepSpinning {}
+
+while xxx {xxxx += 1}
+
+whatWasPrinted
 
 let request3 = HTTP_Request.post(destination: someURL, headerFields: [:], data: Data())
 

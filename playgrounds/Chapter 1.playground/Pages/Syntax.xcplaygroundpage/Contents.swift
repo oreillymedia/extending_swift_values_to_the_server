@@ -1,6 +1,6 @@
-
-import Foundation
 //: # Syntax
+import Foundation
+
 let aHost = "someMachine.com"
 // Uncomment the next line to see the error:
 // aHost = "anotherMachine.com" // ILLEGAL — Cannot assign to value: 'aHost' is a 'let' constant

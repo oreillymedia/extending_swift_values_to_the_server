@@ -1,6 +1,7 @@
 //: [Previous](@previous)
-import Foundation
 //: # Simple Enumerations
+import Foundation
+
 enum Validity { case valid, invalid }
 
 enum StatusCode: Int {

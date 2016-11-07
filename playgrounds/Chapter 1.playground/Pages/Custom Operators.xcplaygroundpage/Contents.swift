@@ -1,10 +1,9 @@
 //: [Previous](@previous)
-
-import Foundation
-
 //: # Custom Operators
 //: - - -
 //: ## Infrastructure for the examples
+import Foundation
+
 func sqrt(_ x: Double) -> Double {
     return x.squareRoot()
 }
