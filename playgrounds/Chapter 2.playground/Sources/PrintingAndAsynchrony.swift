@@ -15,8 +15,6 @@ public func printForPlayground(_ elements: Any..., separator: String = " ", term
 }
 
 
-var doSomethingToPreventOptimization = 0
-
 public func asyncForPlayground( _ fn: @escaping () throws -> Void ) -> String {
     let q = DispatchQueue(label: "executeSoThatShowWorksAsynchronously", qos: .userInteractive)
     let done = DispatchSemaphore(value: 0)

@@ -1,19 +1,18 @@
 //: [Previous](@previous)
-//: A simple enumeration:
+//: # Enumerations with assocated values
 import Foundation
 import UIKit
-//xxx import PlaygroundSupport
-var xxx: Bool = true
-var xxxx = 0
 
+// Work in progress; using a spin hack instead for now.
+// import PlaygroundSupport
+
+let someURL = URL(string: "http://ibm.com")! // needed for examples below
+//: ---
+//: A simple enumeration for comparison:
 enum HTTP_Request_Kind {
     case get, post // other request types omitted for brevity
 }
-
-let someURL = URL(string: "http://ibm.com")! // needed for examples below
-
-
-//: HTTP requests built with a generic protocol and structures:
+//: ## HTTP requests built from structures and protocols:
 
 protocol HTTP_Request_Protocol {
     static func == (a: Self, b: Self) -> Bool
@@ -33,13 +32,13 @@ struct Post: HTTP_Request_Protocol {
         return a.destination == b.destination  && a.headerFields == b.headerFields  &&  a.data == b.data
     }
 }
-
-//: Next two statements are illegal; try uncommenting to see the error
+//: The problem with this approach is that you cannot use a generic protocol as a type:
+// Next two statements are illegal; try uncommenting to see the error
 // let someRequest: HTTP_Request_Protocol = Get(url: someURL, headerFields: [:]) // ILLEGAL
 // let requests: [HTTP_Request_Protocol] = [] // also ILLEGAL
 
-
-//: HTTP requests built with an enumeration with associated values:
+//: - - -
+//: ## Solution: HTTP requests built using an enumeration with associated values
 
 enum HTTP_Request {
     case get  ( destination: URL, headerFields: [String: String] )
@@ -53,6 +52,8 @@ enum HTTP_Request {
         }
     }
     
+    static var hackToAvoidOptimizationWhileSpinning = 0.0
+    
     func send(
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
         ) {
@@ -62,13 +63,17 @@ enum HTTP_Request {
         for (name, value) in headers {
             r.setValue( value, forHTTPHeaderField: name )
         }
-        //xxx PlaygroundPage.current.needsIndefiniteExecution = true
+        var noResponseYet = true
+        func spinPlaygroundTillResponse () {
+            while noResponseYet {
+                HTTP_Request.hackToAvoidOptimizationWhileSpinning += 1.0
+            }
+        }
+        // PlaygroundPage.current.needsIndefiniteExecution = true
         let completionHandlerForPlayground: (Data?, URLResponse?, Error?) -> Void = {
             completionHandler($0, $1, $2)
-            //xxx PlaygroundPage.current.needsIndefiniteExecution = false
-            //xxx print("ZZZ")
-            //xxx PlaygroundPage.current.finishExecution()
-            xxx = false
+            // PlaygroundPage.current.needsIndefiniteExecution = false
+            noResponseYet = false
         }
         switch self {
         case .get: // also delete
@@ -83,6 +88,7 @@ enum HTTP_Request {
                 completionHandler: completionHandlerForPlayground )
                 .resume()
         }
+        spinPlaygroundTillResponse()
     }
     static func == ( lhs: HTTP_Request, rhs: HTTP_Request )
         -> Bool
@@ -100,20 +106,21 @@ enum HTTP_Request {
         }
     }
 }
-
+//: - - -
+//: Create a request, send it, and show the response:
 let request2 = HTTP_Request.get(destination: someURL, headerFields: [:])
-
 
 request2.send {
     data, response, error in
     printForPlayground("error", error ?? "none", "response", response ?? "none", "data", data.flatMap {String(data: $0, encoding: .utf8)} ?? "none")
 }
-
-while xxx {xxxx += 1}
-
 whatWasPrinted
-
+//: - - -
+//: Demonstration of comparing two requests
 let request3 = HTTP_Request.post(destination: someURL, headerFields: [:], data: Data())
 
 request2 == request3
+//: - - -
+//: Or an array of hetergenous requests:
+let requests: [HTTP_Request] = [request2, request3]
 //: [Next](@next)
