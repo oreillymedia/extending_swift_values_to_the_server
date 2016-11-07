@@ -35,7 +35,7 @@ getTemperatureFromCity(aResult: anotherResult)
 func printTemperature(for user: String) {
     Result { try basicGetCity(of: user) }
         .then { try basicGetTemperature(in: $0) }
-        .then { show("temperature where", user, "is: ", $0) }
+        .then { show(temperature: $0, for: user) }
 }
 
 printTemperature(for: "David")
@@ -47,11 +47,9 @@ func printTemperatureOrErrorAssumingAustin(for user: String) {
     Result { try basicGetCity(of: user) }
         .recover { _ in .Austin }
         .then { try basicGetTemperature(in: $0) }
-        .catch { show("error for", user, "(assuning Austin if unknown)", $0) }
+        .catch { show(error: $0, for: user) }
         .then {
-            show("temperature for", user,
-                  "is (assuming Austin if unknown) is", $0)
-    }
+            show(temperature: $0, for: user) }
 }
 
 //: In the View menu, select 'Debug Area' and then 'Activate Console' to see the print output:

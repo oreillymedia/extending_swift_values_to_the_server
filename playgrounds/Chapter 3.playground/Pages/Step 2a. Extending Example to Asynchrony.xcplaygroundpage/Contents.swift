@@ -32,16 +32,15 @@ func printCityOrError(for user: String) {
             requestTemperature(in: city) {
                 // Inner callback:
                 if let temperature = $0 {
-                    show("temperature for", user, "is", temperature)
+                    show(temperature: temperature, for: user)
                 }
                 else {
-                    show("no temperature for", user, "error:", $1 ?? Errors.missing)
+                    show(error: $1 ?? Errors.missing, for: user)
                 }
             }
         }
         else {
-            show("no city for", user, "error:", $1 ?? Errors.missing)
-        }
+            show(error: $1 ?? Errors.missing, for: user) }
     }
 }
 

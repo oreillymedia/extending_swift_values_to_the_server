@@ -24,14 +24,14 @@ public func basicGetTemperature(in city: City) throws -> Int {
     }
 }
 
-public func show( _ city: City, for user: String) {
+public func show( city: City, for user: String) {
     show( "\(user)'s city is \(city)")
 }
 
-public func show( _ temperature: Int, for user: String) {
+public func show( temperature: Int, for user: String) {
     show( "temperature in \(user)'s city is \(temperature)")
 }
 
-public func show( _ error: Error, for user: String) {
+public func show( error: Error, for user: String) {
     show( "error for \(user) is \(error)" )
 }

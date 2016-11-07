@@ -49,8 +49,8 @@ func printCityOrErrorUsingBasicPromise(for user: String) {
             }
         }
         .then(on: myQ) {
-            $0.then { show( "Temperature for", user, "is", $0) }
-            $0.catch { show( "No temperature for", user, "error:", $0) }
+            $0.then { show(temperature: $0, for: user) }
+            $0.catch { show(error: $0, for: user) }
     }
 }
 

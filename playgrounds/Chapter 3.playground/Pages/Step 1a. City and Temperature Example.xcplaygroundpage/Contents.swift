@@ -26,10 +26,10 @@ func printTemperatureOrError(for user: String) {
     do {
         let city        = try basicGetCity(of: user)
         let temperature = try basicGetTemperature(in: city)
-        show("temperature for", user, "is:", temperature)
+        show(temperature: temperature, for: user)
     }
     catch {
-        show("no temperature for", user, "error:", error)
+        show(error: error, for: user)
     }
 }
 
